@@ -7,9 +7,10 @@
 - 昨日のcommit数と、総commit数を、全リポジトリについて集計
 - クリップボードにコピー
 
-## 目安
+## 参考例
 
-- GitHub Copilot Coding Agentにいくつかissueを投げて寝て起きると20commitくらい増えます
+- 20commitも増えてた
+    - GitHub Copilot Coding Agentにいくつかissueを投げて寝て起きると20commitくらい増えます
 
 ## 必要なもの
 
