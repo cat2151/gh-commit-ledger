@@ -1,0 +1,4 @@
+- issue-notes/ は更新禁止（人間が更新）
+- プルリクエストは日本語で書くこと
+- cat2151のライブラリはrevision指定を禁止
+- README.md編集禁止（README.ja.mdから生成されるので）
