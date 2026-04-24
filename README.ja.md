@@ -9,7 +9,7 @@
 
 ## 参考例
 
-- 20commitも増えてた
+- 20commit増えてた
     - GitHub Copilot Coding Agentにいくつかissueを投げて寝て起きると20commitくらい増えます
 
 ## 必要なもの
