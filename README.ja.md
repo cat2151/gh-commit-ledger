@@ -11,6 +11,7 @@
 
 - 20commit増えてた
     - GitHub Copilot Coding Agentにいくつかissueを投げて寝て起きると20commitくらい増えます
+- 1commitと20commitで同じ価値の場合もあります。数字にこだわらず、昨日はcommitがあった、くらいの目安で運用することをおすすめします
 
 ## 必要なもの
 
