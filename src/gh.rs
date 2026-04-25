@@ -18,12 +18,16 @@ impl Default for GhClient {
 }
 
 impl GhClient {
-    pub async fn list_public_repositories(&self) -> Result<Vec<RepoInfo>> {
+    pub async fn viewer_login(&self) -> Result<String> {
         let login: Viewer = self.run_json(["api", "user"]).await?;
+        Ok(login.login)
+    }
+
+    pub async fn list_public_repositories_for_login(&self, login: &str) -> Result<Vec<RepoInfo>> {
         let repos_args = vec![
             "repo".to_string(),
             "list".to_string(),
-            login.login.clone(),
+            login.to_string(),
             "--limit".to_string(),
             "1000".to_string(),
             "--visibility".to_string(),

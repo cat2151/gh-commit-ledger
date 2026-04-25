@@ -148,8 +148,12 @@ fn render_loading(
         ]),
         Line::raw(""),
         Line::from(vec![
-            Span::styled("初回実行", Style::new().fg(MONOKAI_ORANGE)),
-            Span::raw("は全 public repository を走査するため、少し時間がかかります。"),
+            Span::styled("起動直後", Style::new().fg(MONOKAI_ORANGE)),
+            Span::raw("は gh api user / gh repo list で対象 repo を確認し、cache と照合します。"),
+        ]),
+        Line::from(vec![
+            Span::styled("fetch", Style::new().fg(MONOKAI_ORANGE)),
+            Span::raw(" は cache にない snapshot だけ gh api graphql で取得します。"),
         ]),
     ])
     .block(panel(" Loading ", MONOKAI_ORANGE))

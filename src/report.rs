@@ -70,12 +70,23 @@ pub async fn generate_report(
     send_progress(
         tx,
         ProgressUpdate {
-            note: "公開リポジトリ一覧を取得しています".to_string(),
+            note: "GitHub CLI でログインユーザーを確認しています (gh api user)".to_string(),
             ..ProgressUpdate::default()
         },
     );
 
-    let repos = client.list_public_repositories().await?;
+    let login = client.viewer_login().await?;
+    send_progress(
+        tx,
+        ProgressUpdate {
+            note: format!(
+                "GitHub CLI で {login} の公開リポジトリ一覧を取得しています (gh repo list)"
+            ),
+            ..ProgressUpdate::default()
+        },
+    );
+
+    let repos = client.list_public_repositories_for_login(&login).await?;
     let total = repos.len();
     let mut processed = 0usize;
     let mut cached_repos = 0usize;
@@ -86,7 +97,10 @@ pub async fn generate_report(
         tx,
         ProgressUpdate {
             total,
-            note: format!("{} リポジトリを集計します", format_number(total as u64)),
+            note: format!(
+                "{} リポジトリの cache を照合しています",
+                format_number(total as u64)
+            ),
             ..ProgressUpdate::default()
         },
     );
@@ -114,7 +128,7 @@ pub async fn generate_report(
                         total,
                         cached: cached_repos,
                         fetched: fetched_repos,
-                        note: "cache を利用しました".to_string(),
+                        note: "cache にある snapshot を利用しました".to_string(),
                         ..ProgressUpdate::default()
                     },
                 );
@@ -139,6 +153,24 @@ pub async fn generate_report(
                 .with_context(|| format!("{repo_name} の commit 数取得に失敗しました"))?;
             Ok::<_, anyhow::Error>((repo, window))
         });
+    }
+
+    let pending_fetches = total.saturating_sub(processed);
+    if pending_fetches > 0 {
+        send_progress(
+            tx,
+            ProgressUpdate {
+                processed,
+                total,
+                cached: cached_repos,
+                fetched: fetched_repos,
+                note: format!(
+                    "cache にない {} リポジトリを GitHub から取得しています (gh api graphql)",
+                    format_number(pending_fetches as u64)
+                ),
+                ..ProgressUpdate::default()
+            },
+        );
     }
 
     while let Some(result) = join_set.join_next().await {
@@ -169,7 +201,7 @@ pub async fn generate_report(
                 cached: cached_repos,
                 fetched: fetched_repos,
                 current_repo: Some(repo.name_with_owner),
-                note: "GitHub から取得しました".to_string(),
+                note: "GitHub から取得しました (gh api graphql)".to_string(),
             },
         );
     }

@@ -25,10 +25,10 @@ impl App {
         Self {
             screen: Screen::Loading,
             progress: ProgressUpdate {
-                note: "リポジトリ一覧を取得しています".to_string(),
+                note: "起動直後の集計を準備しています".to_string(),
                 ..ProgressUpdate::default()
             },
-            footer_message: "初回集計中です。e 設定編集  q 終了".to_string(),
+            footer_message: "集計中です。e 設定編集  q 終了".to_string(),
             cache_path,
             config_path,
             clipboard_message_template,
