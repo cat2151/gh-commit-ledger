@@ -2,10 +2,15 @@
 
 あなたの公開リポジトリの commit数 を表示するTUIです。Rustで書かれています。
 
-
 ## 特徴
+
 - 昨日のcommit数と、総commit数を、全リポジトリについて集計
 - クリップボードにコピー
+
+## 参考例
+
+- 20commit増えてた
+    - GitHub Copilot Coding Agentにいくつかissueを投げて寝て起きると20commitくらい増えます
 
 ## 必要なもの
 
